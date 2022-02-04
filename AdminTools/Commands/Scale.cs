@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using CommandSystem;
-using Qurre;
 using Qurre.API;
-using AdminTools;
 
 namespace AdminTools.Commands
 {
