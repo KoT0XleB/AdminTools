@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Qurre;
 using Qurre.API;
-using Qurre.Events;
 using Qurre.API.Events;
-using Player = Qurre.API.Player;
 using UnityEngine;
-using Qurre.API.Controllers.Items;
 using Qurre.API.Controllers;
+using Qurre.API.Controllers.Items;
+
+using Player = Qurre.API.Player;
 
 namespace AdminTools
 {
@@ -26,6 +23,7 @@ namespace AdminTools
         }
         public static void ExplodePlayer(Player player)
         {
+            /*
             var grenade = new ExplosiveGrenade(ItemType.GrenadeHE, player);
             grenade.FuseTime = 0.1f;
             grenade.Base.transform.localScale = new Vector3(0, 0, 0);
@@ -33,6 +31,7 @@ namespace AdminTools
 
             grenade.Throw();
             player.Kill();
+            */
         }
         public static void CleanUpObjects()
         {
