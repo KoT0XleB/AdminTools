@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using CommandSystem;
-using Qurre;
+using Qurre.API;
 
 namespace AdminTools.Commands
 {

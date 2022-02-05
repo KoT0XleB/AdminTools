@@ -67,8 +67,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminTools.cs" />
+    <Compile Include="Commands\Ragdoll.cs" />
+    <Compile Include="Commands\Bot.cs" />
+    <Compile Include="Commands\RoomColor.cs" />
+    <Compile Include="Commands\Cleanup.cs" />
+    <Compile Include="Commands\Ball.cs" />
+    <Compile Include="Commands\Explode.cs" />
+    <Compile Include="Commands\Kick.cs" />
     <Compile Include="Commands\Position.cs" />
+    <Compile Include="Commands\Ahp.cs" />
     <Compile Include="Commands\Scale.cs" />
+    <Compile Include="Commands\RandomTeleport.cs" />
+    <Compile Include="Commands\Teleport.cs" />
     <Compile Include="Commands\Size.cs" />
     <Compile Include="EventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
