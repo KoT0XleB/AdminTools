@@ -1,7 +1,7 @@
 # AdminTools
 ### Allows admins to use funny and useful commands
 ### Позволяет админам использовать забавные и полезные команды
-# Комманды
+# Команды
 + ahp (id) (value)
 + ball (id)
 + bot (id)
