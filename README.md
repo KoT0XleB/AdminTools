@@ -6,7 +6,7 @@
 + ball (id)
 + bot (id)
 + cleanup (items / ragdolls / all)
-+ explode (id) [причина]
++ explode (id) [reason]
 + kick (id) [reason]
 + pos / position
 + ragdoll / ragdoll (id)
