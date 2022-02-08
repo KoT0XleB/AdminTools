@@ -5,15 +5,13 @@ using Qurre.API;
 namespace AdminTools.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Cleanup : ParentCommand
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class Cleanup : ICommand
     {
-        public Cleanup() => LoadGeneratedCommands();
-        public override string Command => "cleanup";
-        public override string[] Aliases => new string[] { };
-        public override string Description => "Очистить комплекс: cleanup (items / ragdolls / all)";
-        public override void LoadGeneratedCommands() { }
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public string Command => "cleanup";
+        public string[] Aliases => new string[] { };
+        public string Description => "Очистить комплекс: cleanup (items / ragdolls / all)";
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count != 1)
             {

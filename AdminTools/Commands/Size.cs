@@ -5,15 +5,13 @@ using Qurre.API;
 namespace AdminTools.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Size : ParentCommand
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class Size : ICommand
     {
-        public Size() => LoadGeneratedCommands();
-        public override string Command => "size";
-        public override string[] Aliases => new string[] { };
-        public override string Description => "Изменить размер человека: size (id / all) (x) (y) (z)";
-        public override void LoadGeneratedCommands() { }
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public string Command => "size";
+        public string[] Aliases => new string[] { };
+        public string Description => "Изменить размер человека: size (id / all) (x) (y) (z)";
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count < 1)
             {
@@ -46,30 +44,30 @@ namespace AdminTools.Commands
             switch (arguments.At(0))
             {
                 case "all":
+                {
+                    foreach (Player player in Player.List)
                     {
-                        foreach(Player player in Player.List)
-                        {
-                            if (player.Role != RoleType.None || player.Role != RoleType.Spectator)
-                                EventHandler.SetPlayerSize(player, x, y, z);
-                        }
-
-                        response = $"Размер всех людей был изменён по {x} {y} {z}";
-                        return true;
+                        if (player.Role != RoleType.None || player.Role != RoleType.Spectator)
+                            EventHandler.SetPlayerSize(player, x, y, z);
                     }
+
+                    response = $"Размер всех людей был изменён по {x} {y} {z}";
+                    return true;
+                }
                 default:
+                {
+                    Player pl = Player.Get(arguments.At(0));
+                    if (pl == null)
                     {
-                        Player pl = Player.Get(arguments.At(0));
-                        if (pl == null)
-                        {
-                            response = $"Игрок не найден: {arguments.At(0)}";
-                            return false;
-                        }
-
-                        EventHandler.SetPlayerSize(pl, x, y, z);
-
-                        response = $"Размер игрока {pl.Nickname} был изменён по {x} {y} {z}";
-                        return true;
+                        response = $"Игрок не найден: {arguments.At(0)}";
+                        return false;
                     }
+
+                    EventHandler.SetPlayerSize(pl, x, y, z);
+
+                    response = $"Размер игрока {pl.Nickname} был изменён по {x} {y} {z}";
+                    return true;
+                }
             }
         }
     }

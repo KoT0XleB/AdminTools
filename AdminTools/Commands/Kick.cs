@@ -5,15 +5,13 @@ using Qurre.API;
 namespace AdminTools.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Kick : ParentCommand
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class Kick : ICommand
     {
-        public Kick() => LoadGeneratedCommands();
-        public override string Command => "kick";
-        public override string[] Aliases => new string[] { };
-        public override string Description => "Кикнуть человека: kick (id) [причина]";
-        public override void LoadGeneratedCommands() { }
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public string Command => "kick";
+        public string[] Aliases => new string[] { };
+        public string Description => "Кикнуть человека: kick (id) [причина]";
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count < 1)
             {

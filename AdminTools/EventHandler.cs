@@ -119,5 +119,13 @@ namespace AdminTools
         {
             WorkStation.Create(player.Position, player.Rotation, new Vector3(1, 1, 1));
         }
+        public static void DropPlayerItems(Player player)
+        {
+            player.DropItems();
+        }
+        public static void DropPlayerItems(Player player, Item item)
+        {
+            player.DropItem(item);
+        }
     }
 }

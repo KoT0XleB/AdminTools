@@ -5,15 +5,13 @@ using Qurre.API;
 namespace AdminTools.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class RandomTeleport : ParentCommand
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class RandomTeleport : ICommand
     {
-        public RandomTeleport() => LoadGeneratedCommands();
-        public override string Command => "randomtp";
-        public override string[] Aliases => new string[] { };
-        public override string Description => "Тп на случайную позицию: randomtp (id / all)";
-        public override void LoadGeneratedCommands() { }
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public string Command => "randomtp";
+        public string[] Aliases => new string[] { };
+        public string Description => "Тп на случайную позицию: randomtp (id / all)";
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count != 1)
             {
@@ -25,7 +23,7 @@ namespace AdminTools.Commands
             {
                 case "all":
                     {
-                        foreach(Player player in Player.List)
+                        foreach (Player player in Player.List)
                         {
                             if (player.Role != RoleType.None || player.Role != RoleType.Spectator)
                                 EventHandler.TpPlayerRandom(player);

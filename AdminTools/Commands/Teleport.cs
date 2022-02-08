@@ -5,15 +5,13 @@ using Qurre.API;
 namespace AdminTools.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Teleport : ParentCommand
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class Teleport : ICommand
     {
-        public Teleport() => LoadGeneratedCommands();
-        public override string Command => "tp";
-        public override string[] Aliases => new string[] { "teleport" };
-        public override string Description => "Телепортироваться на позицию: tp (id / all) (x) (y) (z)";
-        public override void LoadGeneratedCommands() { }
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public string Command => "tp";
+        public string[] Aliases => new string[] { "teleport" };
+        public string Description => "Телепортироваться на позицию: tp (id / all) (x) (y) (z)";
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count != 4)
             {
@@ -41,30 +39,30 @@ namespace AdminTools.Commands
             switch (arguments.At(0))
             {
                 case "all":
+                {
+                    foreach (Player player in Player.List)
                     {
-                        foreach(Player player in Player.List)
-                        {
-                            if (player.Role != RoleType.None || player.Role != RoleType.Spectator)
-                                EventHandler.TpPlayerPosition(player, x, y, z);
-                        }
-
-                        response = $"Все люди были телепортированы на {x} {y} {z}";
-                        return true;
+                        if (player.Role != RoleType.None || player.Role != RoleType.Spectator)
+                            EventHandler.TpPlayerPosition(player, x, y, z);
                     }
+
+                    response = $"Все люди были телепортированы на {x} {y} {z}";
+                    return true;
+                }
                 default:
+                {
+                    Player pl = Player.Get(arguments.At(0));
+                    if (pl == null)
                     {
-                        Player pl = Player.Get(arguments.At(0));
-                        if (pl == null)
-                        {
-                            response = $"Игрок не найден: {arguments.At(0)}";
-                            return false;
-                        }
-
-                        EventHandler.TpPlayerPosition(pl, x, y, z);
-
-                        response = $"Игрок {pl.Nickname} был телепортирован на {x} {y} {z}";
-                        return true;
+                        response = $"Игрок не найден: {arguments.At(0)}";
+                        return false;
                     }
+
+                    EventHandler.TpPlayerPosition(pl, x, y, z);
+
+                    response = $"Игрок {pl.Nickname} был телепортирован на {x} {y} {z}";
+                    return true;
+                }
             }
         }
     }

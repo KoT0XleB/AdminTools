@@ -5,15 +5,13 @@ using Qurre.API;
 namespace AdminTools.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Position : ParentCommand
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class Position : ICommand
     {
-        public Position() => LoadGeneratedCommands();
-        public override string Command => "pos";
-        public override string[] Aliases => new string[] { "position" };
-        public override string Description => "Определить свою позицию: pos / position";
-        public override void LoadGeneratedCommands() { }
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public string Command => "pos";
+        public string[] Aliases => new string[] { "position" };
+        public string Description => "Определить свою позицию: pos / position";
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count > 0)
             {

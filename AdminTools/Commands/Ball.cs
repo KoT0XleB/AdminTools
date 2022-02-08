@@ -5,15 +5,14 @@ using Qurre.API;
 namespace AdminTools.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Ball : ParentCommand
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class Ball : ICommand
     {
-        public Ball() => LoadGeneratedCommands();
-        public override string Command => "ball";
-        public override string[] Aliases => new string[] { };
-        public override string Description => "Кинуть в человека мячик: ball (id)";
-        public override void LoadGeneratedCommands() { }
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public string Command => "ball";
+        public string[] Aliases => new string[] { };
+        public string Description => "Кинуть в человека мячик: ball (id)";
+
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count != 1)
             {
