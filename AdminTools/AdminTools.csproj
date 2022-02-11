@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminTools.cs" />
+    <Compile Include="Commands\Call.cs" />
     <Compile Include="Commands\Ragdoll.cs" />
     <Compile Include="Commands\Bot.cs" />
     <Compile Include="Commands\RoomColor.cs" />
