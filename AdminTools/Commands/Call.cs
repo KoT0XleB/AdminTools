@@ -27,7 +27,7 @@ namespace AdminTools.Commands
                 Round.CallCICar();
                 return true;
             }
-            else if (argument == "helicopter" || argument == "вертолёт" || argument == "h")
+            else if (argument == "heli" || argument == "вертолёт" || argument == "h")
             {
                 response = "Succefully/Успешно!";
                 Round.CallMTFHelicopter();
