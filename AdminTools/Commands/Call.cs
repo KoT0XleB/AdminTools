@@ -10,12 +10,12 @@ namespace AdminTools.Commands
     {
         public string Command => "call";
         public string[] Aliases => new string[] { "вызов" };
-        public string Description => "Calling the MTF Helicopter or Chaos Car/Вызывает вертолёт MTF или машину хаоса: call (helicopter or car)";
+        public string Description => "Calling the MTF Helicopter or Chaos Car/Вызывает вертолёт MTF или машину хаоса: call (heli or car)";
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count != 1)
             {
-                response = "Using/Использование: call [helicopter or car]";
+                response = "Using/Использование: call [heli or car]";
                 return false;
             }
 
