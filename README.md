@@ -5,6 +5,7 @@
 + ahp (id) (value)
 + ball (id)
 + bot (id)
++ call (car / heli)
 + cleanup (items / ragdolls / all)
 + explode (id) [reason]
 + kick (id) [reason]
