@@ -10,7 +10,7 @@ namespace AdminTools.Commands
     {
         public string Command => "call";
         public string[] Aliases => new string[] { "вызов" };
-        public string Description => "Calling the MTF Helicopter or Chaos Car/Вызывает вертолёт MTF или машину хаоса: call (heli or car)";
+        public string Description => "Calling the MTF Helicopter or Chaos Car/Вызывает вертолет MTF или машину хаоса: call (heli or car)";
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count != 1)
@@ -27,7 +27,7 @@ namespace AdminTools.Commands
                 Round.CallCICar();
                 return true;
             }
-            else if (argument == "heli" || argument == "вертолёт" || argument == "h")
+            else if (argument == "heli" || argument == "вертолет" || argument == "h")
             {
                 response = "Succefully/Успешно!";
                 Round.CallMTFHelicopter();
