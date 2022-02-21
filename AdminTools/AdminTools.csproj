@@ -50,7 +50,7 @@
     <Reference Include="NorthwoodLib">
       <HintPath>..\..\..\..\файлы\NorthwoodLib.dll</HintPath>
     </Reference>
-    <Reference Include="Qurre, Version=1.11.10.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Qurre, Version=1.12.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\файлы\Qurre\Qurre.dll</HintPath>
     </Reference>
@@ -79,6 +79,7 @@
     <Compile Include="Commands\Ahp.cs" />
     <Compile Include="Commands\Scale.cs" />
     <Compile Include="Commands\RandomTeleport.cs" />
+    <Compile Include="Commands\ItemSpawn.cs" />
     <Compile Include="Commands\Teleport.cs" />
     <Compile Include="Commands\Size.cs" />
     <Compile Include="EventHandler.cs" />

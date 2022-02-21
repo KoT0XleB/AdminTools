@@ -6,10 +6,12 @@ using PlayerStatsSystem;
 using Qurre.API.Objects;
 using Qurre.API.Controllers;
 using Qurre.API.Controllers.Items;
+using InventorySystem.Items.ThrowableProjectiles;
 
 using Map = Qurre.API.Map;
 using Player = Qurre.API.Player;
 using Object = UnityEngine.Object;
+using Mirror;
 
 namespace AdminTools
 {
@@ -39,13 +41,58 @@ namespace AdminTools
         {
             player.Room.LightColor = color;
         }
+        public static void OverchargePlayerRoom(Player player, float duration)
+        {
+            player.Room.LightsOff(duration); // типо он свет отключит на N времени
+        }
+        public static void PlayerRoom(Player player)
+        {
+            
+        }
+        public static void PlayerDoors(Player player)
+        {
+            //player.Room.Doors
+            Physics.Raycast(new Ray(player.ReferenceHub.PlayerCameraReference.transform.position, player.ReferenceHub.PlayerCameraReference.transform.forward), out RaycastHit hit, 100f);
+            Log.Info(hit.distance);
+            //if (!(Door.Get(hit.transform.gameObject) is Door door))
+            //{
+            //
+            //}
+            foreach (Component component in hit.transform.gameObject.GetComponents(typeof(Component)))
+                Log.Info(component.ToString());
+        }
+        public static void ItemSpawn(Player player, ItemType item)
+        {
+            //Vector3 position = player.CameraTransform.position;
+            //Vector3 forward = player.CameraTransform.forward;
+            //Physics.Raycast(new Ray(position + forward, forward), out RaycastHit hit, 100f);
+            Pickup pickup = new Item(item).Spawn(player.Position); // Vector.zero
+            //NetworkServer.UnSpawn(pickup.Base.gameObject);
+            //pickup.Base.GetComponent<Rigidbody>().isKinematic = true;
+            //pickup.Base.transform.position = hit.transform.position;
+            //pickup.Base.transform.rotation = hit.transform.rotation;
+            //NetworkServer.Spawn(pickup.Base.gameObject);
+        }
+        public static void ItemSpawn(Player player, ItemType item, float x, float y, float z)
+        {
+            //Vector3 position = player.CameraTransform.position;
+            //Vector3 forward = player.CameraTransform.forward;
+            //Physics.Raycast(new Ray(position + forward, forward), out RaycastHit hit, 100f);
+            Pickup pickup = new Item(item).Spawn(new Vector3(x, y, z)); // Vector.zero
+            //NetworkServer.UnSpawn(pickup.Base.gameObject);
+            //pickup.Base.GetComponent<Rigidbody>().isKinematic = true;
+            //pickup.Base.transform.position = hit.transform.position;
+            //pickup.Base.transform.rotation = hit.transform.rotation;
+            //pickup.Scale = new Vector3(x, y, z);
+            //NetworkServer.Spawn(pickup.Base.gameObject);
+        }
         public static void ExplodePlayer(Player player, string reason)
         {
-            var grenade = new ExplosiveGrenade(ItemType.GrenadeHE, player);
-            grenade.FuseTime = 0.1f;
+            GrenadeFrag grenade = new GrenadeFrag(ItemType.GrenadeHE);
+            grenade.FuseTime = 0.5f;
             grenade.Base.transform.localScale = new Vector3(0, 0, 0);
             grenade.MaxRadius = 3f;
-            grenade.Throw();
+            grenade.Spawn(player.Position);
             player.Kill(reason);
         }
         public static void CleanUpObjects(string ClearObject)
@@ -77,10 +124,10 @@ namespace AdminTools
         }
         public static void ThrowBallOnPlayer(Player player)
         {
-            var grenade = new ExplosiveGrenade(ItemType.SCP018, player);
+            GrenadeFrag grenade = new GrenadeFrag(ItemType.SCP018, player);
             grenade.FuseTime = 10f;
             grenade.MaxRadius = 5f;
-            grenade.Throw();
+            grenade.Throw(false);
             // Говнокод на время
             /*
             foreach (Player pl in Player.List)
@@ -106,14 +153,15 @@ namespace AdminTools
             var text = new CustomReasonDamageHandler("Лежу и отдыхаю");
             Qurre.API.Controllers.Ragdoll.Create(role, pos, rot, text, player.Nickname, player.Id);
         }
-        public static void CreateDoor(Player player)
+        public static void CreateDoor(Player player, Vector3 pos)
         {
-            //door.transform.position = new Vector3(49.4f, 1019.4f, -43.8f);
-            //IEnumerator<Door> door = (IEnumerator<Door>)(from x in Map.Doors where x.Type == DoorType.LCZ_330 select x);
-            //if (door.Current<Door> == 0)
-            //{
-            //    Door newdoor = door.Fist
-            //}
+            foreach (Door doors in Map.Doors)
+            {
+                if (doors.Type == DoorType.Escape_Secondary)
+                {
+                    doors.Position = pos;
+                }
+            }
         }
         public static void CreateWorkbench(Player player)
         {
