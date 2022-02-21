@@ -8,6 +8,7 @@
 + ``call (car / heli)``  ***added by Tsukuyomi***
 + ``cleanup (items / ragdolls / all)``
 + ``explode (id) [reason]``
++ ``itemspawn (item_id) / (item_id) (x) (y) (z)``
 + ``kick (id) [reason]``
 + ``pos / position``
 + ``ragdoll / ragdoll (id)``
