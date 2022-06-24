@@ -6,7 +6,6 @@ using UnityEngine;
 namespace AdminTools.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    [CommandHandler(typeof(ClientCommandHandler))]
     public class RoomColor : ICommand
     {
         public string Command => "roomcolor";

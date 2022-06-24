@@ -12,11 +12,13 @@ using Map = Qurre.API.Map;
 using Player = Qurre.API.Player;
 using Object = UnityEngine.Object;
 using Mirror;
+using Qurre.API.Addons.Models;
 
 namespace AdminTools
 {
     public class EventHandler
     {
+        public static Model Model = new Model("door", new Vector3(0, 0, 0));
         public static void SetPlayerSize(Player player, float x, float y, float z)
         {
             player.Scale = new Vector3(x, y, z);
@@ -43,48 +45,53 @@ namespace AdminTools
         }
         public static void OverchargePlayerRoom(Player player, float duration)
         {
-            player.Room.LightsOff(duration); // типо он свет отключит на N времени
+            player.Room.LightsOff(duration);
         }
-        public static void PlayerRoom(Player player)
+        public static void DoorCreate(Player player)
         {
-            
+            var doorCount = Model.Doors.Count;
+            foreach (var door in player.Room.Doors)
+            {
+                switch(door.Type)
+                {
+                    case DoorType.LCZ_Door:
+                        {
+                            Model.AddPart(new ModelDoor(Model, DoorPrefabs.DoorLCZ, player.Position + new Vector3(0, -1.2f, 0), new Vector3(0, player.Rotation.y, 0), player.Scale, null));
+                        }
+                        break;
+                    case DoorType.HCZ_Door:
+                        {
+                            Model.AddPart(new ModelDoor(Model, DoorPrefabs.DoorHCZ, player.Position + new Vector3(0, -1.2f, 0), new Vector3(0, player.Rotation.y, 0), player.Scale, null));
+                        }
+                        break;
+                    case DoorType.EZ_Door:
+                        {
+                            Model.AddPart(new ModelDoor(Model, DoorPrefabs.DoorEZ, player.Position + new Vector3(0, -1.2f, 0), new Vector3(0, player.Rotation.y, 0), player.Scale, null));
+                        }
+                        break;
+                }
+                if (Model.Doors.Count > doorCount) break;
+            }
         }
-        public static void PlayerDoors(Player player)
+        public static void DoorDestroy()
         {
-            //player.Room.Doors
-            Physics.Raycast(new Ray(player.ReferenceHub.PlayerCameraReference.transform.position, player.ReferenceHub.PlayerCameraReference.transform.forward), out RaycastHit hit, 100f);
-            Log.Info(hit.distance);
-            //if (!(Door.Get(hit.transform.gameObject) is Door door))
-            //{
-            //
-            //}
-            foreach (Component component in hit.transform.gameObject.GetComponents(typeof(Component)))
-                Log.Info(component.ToString());
+            foreach (var door in Model.Doors) door.Door.Destroyed = true;
+        }
+        public static void PrimitiveCreate(Player player, PrimitiveType prim)
+        {
+            Model.AddPart(new ModelPrimitive(Model, prim, Color.white, player.Position, player.Rotation, player.Scale));
+        }
+        public static void PrimitiveDestroy()
+        {
+            foreach (var prim in Model.Primitives) GameObject.Destroy(prim.GameObject);
         }
         public static void ItemSpawn(Player player, ItemType item)
         {
-            //Vector3 position = player.CameraTransform.position;
-            //Vector3 forward = player.CameraTransform.forward;
-            //Physics.Raycast(new Ray(position + forward, forward), out RaycastHit hit, 100f);
-            Pickup pickup = new Item(item).Spawn(player.Position); // Vector.zero
-            //NetworkServer.UnSpawn(pickup.Base.gameObject);
-            //pickup.Base.GetComponent<Rigidbody>().isKinematic = true;
-            //pickup.Base.transform.position = hit.transform.position;
-            //pickup.Base.transform.rotation = hit.transform.rotation;
-            //NetworkServer.Spawn(pickup.Base.gameObject);
+            Pickup pickup = new Item(item).Spawn(player.Position);
         }
         public static void ItemSpawn(Player player, ItemType item, float x, float y, float z)
         {
-            //Vector3 position = player.CameraTransform.position;
-            //Vector3 forward = player.CameraTransform.forward;
-            //Physics.Raycast(new Ray(position + forward, forward), out RaycastHit hit, 100f);
-            Pickup pickup = new Item(item).Spawn(new Vector3(x, y, z)); // Vector.zero
-            //NetworkServer.UnSpawn(pickup.Base.gameObject);
-            //pickup.Base.GetComponent<Rigidbody>().isKinematic = true;
-            //pickup.Base.transform.position = hit.transform.position;
-            //pickup.Base.transform.rotation = hit.transform.rotation;
-            //pickup.Scale = new Vector3(x, y, z);
-            //NetworkServer.Spawn(pickup.Base.gameObject);
+            Pickup pickup = new Item(item).Spawn(new Vector3(x, y, z));
         }
         public static void ExplodePlayer(Player player, string reason)
         {
@@ -118,7 +125,6 @@ namespace AdminTools
         }
         public static void GivePlayerAhp(Player player, int value)
         {
-            // Некорректно работает
             if (player.MaxAhp < value) player.MaxAhp = value;
             player.PlayerStats.GetModule<AhpStat>().ServerAddProcess(value);
         }
@@ -128,22 +134,14 @@ namespace AdminTools
             grenade.FuseTime = 10f;
             grenade.MaxRadius = 5f;
             grenade.Throw(false);
-            // Говнокод на время
-            /*
-            foreach (Player pl in Player.List)
-            {
-                if (Vector3.Distance(pl.Position, grenade.Base.transform.position) <= grenade.MaxRadius)
-                {
-                    if (pl.Hp > 70) player.Hp -= 70;
-                    else pl.Kill();
-                }
-            }
-            */
         }
-        public static void CreateBot(Player player, Player admin)
+        public static void BotCreate(Player player, Player admin)
         {
-            // надо запоминать бота и используя команду убирать
-            var bot = Bot.Create(admin.Position, admin.Rotation, player.Role, player.Nickname, player.RoleName, player.RoleColor);
+            Bot.Create(admin.Position, admin.Rotation, player.Role, player.Nickname, player.RoleName, player.RoleColor);
+        }
+        public static void BotDestroy()
+        {
+            foreach (var bot in Map.Bots) bot.Destroy();
         }
         public static void CreateRagdoll(Player player)
         {
@@ -153,19 +151,13 @@ namespace AdminTools
             var text = new CustomReasonDamageHandler("Лежу и отдыхаю");
             Qurre.API.Controllers.Ragdoll.Create(role, pos, rot, text, player.Nickname, player.Id);
         }
-        public static void CreateDoor(Player player, Vector3 pos)
-        {
-            foreach (Door doors in Map.Doors)
-            {
-                if (doors.Type == DoorType.Escape_Secondary)
-                {
-                    doors.Position = pos;
-                }
-            }
-        }
-        public static void CreateWorkbench(Player player)
+        public static void WorkbenchCreate(Player player)
         {
             WorkStation.Create(player.Position, player.Rotation, new Vector3(1, 1, 1));
+        }
+        public static void WorkbenchDestroy()
+        {
+            foreach (var work in Map.WorkStations) GameObject.Destroy(work.GameObject);
         }
         public static void DropPlayerItems(Player player)
         {

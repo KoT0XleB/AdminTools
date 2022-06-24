@@ -37,8 +37,7 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\..\..\файлы\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp_publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Assembly-CSharp_publicized">
       <HintPath>..\..\..\..\файлы\Qurre\Assembly-CSharp_publicized.dll</HintPath>
     </Reference>
     <Reference Include="CommandSystem.Core">
@@ -50,7 +49,7 @@
     <Reference Include="NorthwoodLib">
       <HintPath>..\..\..\..\файлы\NorthwoodLib.dll</HintPath>
     </Reference>
-    <Reference Include="Qurre, Version=1.12.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Qurre, Version=1.13.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\файлы\Qurre\Qurre.dll</HintPath>
     </Reference>
@@ -67,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminTools.cs" />
+    <Compile Include="Commands\Primitive.cs" />
+    <Compile Include="Commands\Door.cs" />
+    <Compile Include="Commands\Workbench.cs" />
     <Compile Include="Commands\Call.cs" />
     <Compile Include="Commands\Ragdoll.cs" />
     <Compile Include="Commands\Bot.cs" />

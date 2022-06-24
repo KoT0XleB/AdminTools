@@ -5,23 +5,26 @@ using Qurre.API;
 namespace AdminTools.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class Bot : ICommand
+    public class Workbench : ICommand
     {
-        public string Command => "bot";
+        public string Command => "workbench";
         public string[] Aliases => new string[] { };
-        public string Description => "Создать бота копией игрока: bot [id или delete]";
+        public string Description => "Создать стол: workbench [id / delete]";
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count != 1)
             {
-                response = "Используйте: bot (id)";
+                response = "Используйте: workbench [id / delete]";
                 return false;
             }
-            if (arguments.At(0) == "delete")
+            if (arguments.Count == 1)
             {
-                EventHandler.BotDestroy();
-                response = "<color=green>Все боты уничтожены!</color>";
-                return true;
+                if (arguments.At(0) == "delete")
+                {
+                    EventHandler.WorkbenchDestroy();
+                    response = "<color=green>Все столы уничтожены!</color>";
+                    return true;
+                }
             }
             Player pl = Player.Get(arguments.At(0));
             if (pl == null)
@@ -29,13 +32,12 @@ namespace AdminTools.Commands
                 response = $"Игрок не найден: {arguments.At(0)}";
                 return false;
             }
-
             string userid = (sender as CommandSender).SenderId;
             Player admin = Player.Get(userid);
 
-            EventHandler.BotCreate(pl, admin);
+            EventHandler.WorkbenchCreate(pl);
 
-            response = $"Вы создали копию игрока {pl.Nickname}";
+            response = $"Вы создали стол.";
             return true;
         }
     }

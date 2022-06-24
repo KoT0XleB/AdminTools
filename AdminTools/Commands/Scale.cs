@@ -5,7 +5,6 @@ using Qurre.API;
 namespace AdminTools.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    [CommandHandler(typeof(ClientCommandHandler))]
     public class Scale : ICommand
     {
         public string Command => "scale";

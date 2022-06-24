@@ -5,22 +5,22 @@ using Qurre.API;
 namespace AdminTools.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class Bot : ICommand
+    public class Door : ICommand
     {
-        public string Command => "bot";
+        public string Command => "door";
         public string[] Aliases => new string[] { };
-        public string Description => "Создать бота копией игрока: bot [id или delete]";
+        public string Description => "Создать дверь: door [id / delete]";
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count != 1)
             {
-                response = "Используйте: bot (id)";
+                response = "Используйте: door (id)";
                 return false;
             }
             if (arguments.At(0) == "delete")
             {
                 EventHandler.BotDestroy();
-                response = "<color=green>Все боты уничтожены!</color>";
+                response = "<color=green>Все двери уничтожены!</color>";
                 return true;
             }
             Player pl = Player.Get(arguments.At(0));
@@ -30,12 +30,9 @@ namespace AdminTools.Commands
                 return false;
             }
 
-            string userid = (sender as CommandSender).SenderId;
-            Player admin = Player.Get(userid);
+            EventHandler.DoorCreate(pl);
 
-            EventHandler.BotCreate(pl, admin);
-
-            response = $"Вы создали копию игрока {pl.Nickname}";
+            response = $"Вы создали дверь.";
             return true;
         }
     }
