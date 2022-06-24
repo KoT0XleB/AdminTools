@@ -5,7 +5,7 @@
 + ``ahp (id) (value)``
 + ``ball (id)``
 + ``bot (id)``
-+ ``call (car / heli)``  ***added by Tsukuyomi***
++ ``call (car / heli)``
 + ``cleanup (items / ragdolls / all)``
 + ``explode (id) [reason]``
 + ``itemspawn (item_id) / (item_id) (x) (y) (z)``
@@ -17,3 +17,4 @@
 + ``size ( id / all ) (x) (y) (z)``
 + ``scale ( id / all ) (value)``
 + ``tp (id / all) (x) (y) (z)``
++++ and the rest are more or less necessary
